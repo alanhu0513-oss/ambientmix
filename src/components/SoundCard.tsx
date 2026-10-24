@@ -39,38 +39,56 @@ export default function SoundCard({ sound, isPlaying, onToggle }: SoundCardProps
     }
   };
 
+  const progress = volume * 100;
+
   return (
-    <div className={`relative overflow-hidden rounded-2xl border transition-all duration-300 ${
-      isPlaying 
-        ? 'border-white/30 bg-gradient-to-br ' + sound.color + ' shadow-2xl shadow-purple-500/20 scale-105' 
-        : 'border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/10'
-    }`}>
-      <div className="p-6">
+    <div 
+      className={`group relative overflow-hidden rounded-2xl transition-all duration-500 ease-out ${
+        isPlaying 
+          ? 'bg-gradient-to-br from-white/[0.08] to-white/[0.02] border border-white/20 shadow-[0_8px_32px_rgba(168,85,247,0.15)] scale-[1.02]' 
+          : 'bg-white/[0.02] border border-white/[0.08] hover:bg-white/[0.05] hover:border-white/[0.15] hover:shadow-[0_8px_32px_rgba(0,0,0,0.4)]'
+      }`}
+      style={{ animation: 'fadeIn 0.4s ease-out' }}
+    >
+      <div className="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      
+      <div className="relative p-5">
         <button
           onClick={handleToggle}
-          className="w-full flex items-center gap-4 mb-4"
+          className="w-full flex items-center gap-3.5 text-left"
         >
-          <div className={`p-3 rounded-xl ${
-            isPlaying ? 'bg-white/20' : 'bg-white/10'
+          <div className={`relative p-2.5 rounded-xl transition-all duration-300 ${
+            isPlaying 
+              ? 'bg-white/10 ring-1 ring-white/30' 
+              : 'bg-white/[0.06] ring-1 ring-white/[0.08] group-hover:bg-white/[0.1] group-hover:ring-white/[0.15]'
           }`}>
-            {Icon && <Icon size={28} className="text-white" />}
+            {Icon && <Icon size={22} className={`transition-colors duration-300 ${isPlaying ? 'text-white' : 'text-white/80'}`} />}
+            {isPlaying && (
+              <div className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] animate-pulse-glow" />
+            )}
           </div>
-          <div className="flex-1 text-left">
-            <h3 className="text-lg font-semibold text-white">{sound.name}</h3>
-            <p className="text-sm text-white/60">
-              {isPlaying ? 'Playing' : 'Click to play'}
+          
+          <div className="flex-1 min-w-0">
+            <h3 className={`text-[15px] font-medium tracking-tight transition-colors duration-300 ${
+              isPlaying ? 'text-white' : 'text-white/90 group-hover:text-white'
+            }`}>
+              {sound.name}
+            </h3>
+            <p className={`text-xs mt-0.5 transition-colors duration-300 ${
+              isPlaying ? 'text-white/60' : 'text-white/40 group-hover:text-white/50'
+            }`}>
+              {isPlaying ? 'Now playing' : 'Click to mix'}
             </p>
           </div>
-          <div className={`w-3 h-3 rounded-full ${
-            isPlaying ? 'bg-green-400 shadow-lg shadow-green-400/50 animate-pulse' : 'bg-white/30'
-          }`} />
         </button>
 
-        {isPlaying && (
-          <div className="space-y-2 animate-in fade-in slide-in-from-top-2 duration-300">
-            <div className="flex items-center justify-between text-xs text-white/70">
-              <span>Volume</span>
-              <span>{Math.round(volume * 100)}%</span>
+        <div className={`overflow-hidden transition-all duration-500 ease-out ${
+          isPlaying ? 'max-h-20 opacity-100 mt-4' : 'max-h-0 opacity-0'
+        }`}>
+          <div className="space-y-2">
+            <div className="flex items-center justify-between text-[11px] text-white/50">
+              <span className="uppercase tracking-wider">Volume</span>
+              <span className="tabular-nums">{Math.round(volume * 100)}%</span>
             </div>
             <input
               type="range"
@@ -79,10 +97,11 @@ export default function SoundCard({ sound, isPlaying, onToggle }: SoundCardProps
               step="0.01"
               value={volume}
               onChange={handleVolumeChange}
-              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
+              className="w-full slider"
+              style={{ '--progress': `${progress}%` } as React.CSSProperties}
             />
           </div>
-        )}
+        </div>
       </div>
     </div>
   );
