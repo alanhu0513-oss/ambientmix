@@ -41,3 +41,15 @@ AmbientMix uses the Web Audio API to load and play ambient sound loops. Each sou
 ## License
 
 MIT
+
+## Why I Built This
+
+Most ambient sound apps lock you behind paywalls or have bloated UIs. AmbientMix is simple, fast, and lets you create the exact mix you need for focus, relaxation, or sleep.
+
+## Future Improvements
+
+- [ ] Save custom mixes as presets
+- [ ] Add more sounds (city traffic, typing, vinyl crackle)
+- [ ] Timer/sleep timer functionality
+- [ ] Dark/light theme toggle
+- [ ] Share mix via URL parameters
